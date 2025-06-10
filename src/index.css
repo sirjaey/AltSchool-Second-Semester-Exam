@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.loadTodos:hover {
+    background-color: #f00;
+    cursor: pointer;
+}
+.todoList:hover{
+    background-color: rgba(0, 255, 255, 0.079);
+    border: rgba(1, 14, 14, 0.341);
+}
