@@ -46,6 +46,3 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 		</ErrorBoundary>
 	);
 }
-
-// <span className={todo.completed ? "completed" : ""}>{todo.text}</span>
-// <button onClick={() => deleteTodo(todo.id)}>Delete</button>
