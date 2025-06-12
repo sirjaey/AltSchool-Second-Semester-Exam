@@ -48,7 +48,8 @@ export default function Home() {
 					Have questions or feedback?{" "}
 					<a
 						href="mailto:smartjoshua98@gmail.com"
-						className="text-blue-600 hover:underline" id="email-link">
+						className="text-blue-600 hover:underline"
+						id="email-link">
 						<strong>Email us</strong>
 					</a>
 					<div>© 2025 JoshuaTodos. All rights reserved.</div>

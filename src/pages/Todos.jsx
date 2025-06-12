@@ -11,7 +11,6 @@ import ErrorBoundary from "../components/ErrorHandler";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 
-
 const Todos = ({
 	currentPage,
 	setCurrentPage,
@@ -31,7 +30,6 @@ const Todos = ({
 	const [newTodoTitle, setNewTodoTitle] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
 	const [newCompleted, setNewCompleted] = useState(false);
-
 
 	useEffect(() => {
 		const savedTodos = localStorage.getItem("todos");
@@ -72,15 +70,13 @@ const Todos = ({
 	let totalPages = 1;
 
 	if (fullList) {
-		const filtered = (all
-			|| []).filter((todo) =>
-					todo.title.toLowerCase().includes(searchTerm.toLowerCase())
-			  )
+		const filtered = (all || []).filter((todo) =>
+			todo.title.toLowerCase().includes(searchTerm.toLowerCase())
+		);
 		currentTodos = filtered.slice(indexOfFirstTodo, indexOfLastTodo);
 		totalPages = Math.ceil(filtered.length / todosPerPage);
 	}
-	
-	
+
 	if (completedTasks) {
 		const filtered = completed
 			? completed.filter((todo) =>
@@ -207,7 +203,6 @@ const Todos = ({
 		setNewTodoTitle("");
 		setNewCompleted(false);
 	};
-	
 
 	return (
 		<ErrorBoundary>
