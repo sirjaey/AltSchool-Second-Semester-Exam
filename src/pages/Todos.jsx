@@ -253,25 +253,11 @@ const Todos = ({
 									<label>Mark as completed</label>
 								</div>
 
-								<Button className="bg-green-500 text-white px-4 py-2 rounded">
+								<Button className="bg-green-500 cursor-pointer text-white px-4 py-2 rounded">
 									Add Todo
 								</Button>
 							</form>
 
-							{/* <div className="mb-4 flex items-center gap-2">
-								<input
-									type="text"
-									value={newTodoTitle}
-									onChange={(e) => setNewTodoTitle(e.target.value)}
-									placeholder="Enter new todo"
-									className="border p-2 rounded w-full border-blue-600"
-								/>
-								<Button
-									onClick={handleAdd}
-									className="bg-green-500 text-white px-4 py-2 rounded">
-									Add
-								</Button>
-							</div> */}
 							<div className="search-bar mb-4">
 								<input
 									type="text"
