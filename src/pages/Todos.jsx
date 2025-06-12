@@ -164,12 +164,14 @@ const Todos = ({
 	const handleEditSave = async (id) => {
 		try {
 			const updated = await updateTodo(id, { title: editText }); // update on server
-			setAllTodos((prev) =>
-				prev.map((todo) =>
-					todo.id === id ? { ...todo, title: updated.title } : todo
-				)
+
+			const updatedTodos = allTodos.map((todo) =>
+				todo.id === id ? { ...todo, title: updated.title } : todo
 			);
-			localStorage.setItem("todos", JSON.stringify(allTodos));
+
+			setAllTodos(updatedTodos);
+			localStorage.setItem("todos", JSON.stringify(updatedTodos)); // ✅ updated state
+
 			setEditingId(null);
 			setEditText("");
 		} catch (err) {
