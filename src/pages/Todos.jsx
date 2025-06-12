@@ -61,7 +61,7 @@ const Todos = ({
 		}
 	}, [todos]);
 
-	const completed = allTodos.filter((todo) => todo.completed === true);
+	const completed = allTodos?.filter((todo) => todo.completed === true);
 	const pending = allTodos.filter((todo) => todo.completed === false);
 	const all = allTodos;
 
@@ -289,7 +289,7 @@ const Todos = ({
 													{todo.completed ? (
 														<span className="statusCompleted">✅ Done</span>
 													) : (
-														<span className="statusP">❌ Pending</span>
+														<span className="statusP">⏳ Pending</span>
 													)}
 												</p>
 											</div>
