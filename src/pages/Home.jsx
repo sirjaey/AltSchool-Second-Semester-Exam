@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import fetchTodos from "../scripts/fetchTodos";
+import fetchTodos from "../api/fetchTodos";
 
-export default function Home({
-	setCurrentPage,
-	setTodos,
-	setError,
-	setLoading,
-}) {
+export default function Home() {
 	const handleFetchTodos = () => {
 		fetchTodos();
 	};
@@ -35,8 +30,8 @@ export default function Home({
 					<ul className="space-y-4 text-gray-700">
 						<li>✅ Simple and intuitive interface</li>
 						<li>📱 Fully responsive on all devices</li>
-						<li>🔔 Smart reminders and notifications</li>
-						<li>☁️ Cloud sync to access your tasks anywhere</li>
+						<li>✏️ Editable and Flexible</li>
+						<li>🔍 Search and filter tasks easily</li>
 					</ul>
 				</div>
 				<div>
@@ -49,7 +44,15 @@ export default function Home({
 			</section>
 
 			<footer id="contact" className="text-center py-10 text-gray-500 px-6">
-				© 2025 JoshuaTodos. All rights reserved.
+				<div className="mb-4">
+					Have questions or feedback?{" "}
+					<a
+						href="mailto:smartjoshua98@gmail.com"
+						className="text-blue-600 hover:underline" id="email-link">
+						<strong>Email us</strong>
+					</a>
+					<div>© 2025 JoshuaTodos. All rights reserved.</div>
+				</div>
 			</footer>
 		</div>
 	);

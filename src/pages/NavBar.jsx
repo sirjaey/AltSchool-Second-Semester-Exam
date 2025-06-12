@@ -17,10 +17,9 @@ export default function NavBar({children}) {
 					<a href="#features" className="hover:text-blue-600">
 						Features
 					</a>
-					<a href="#about" className="hover:text-blue-600">
-						About
-					</a>
-					<a href="#contact" className="hover:text-blue-600">
+
+					<Link to="/*">About</Link>
+					<a href="#email-link" className="hover:text-blue-600">
 						Contact
 					</a>
 				</div>
