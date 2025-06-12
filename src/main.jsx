@@ -11,3 +11,11 @@ createRoot(document.getElementById("root")).render(
 		</ErrorBoundary>
 	</StrictMode>
 );
+
+// createRoot(document.getElementById("root")).render(
+// 	<StrictMode>
+// 		<ErrorBoundary>
+// 			<App />
+// 		</ErrorBoundary>
+// 	</StrictMode>
+// );

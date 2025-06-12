@@ -48,7 +48,7 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 													borderRadius: "10px",
 												}}
 												to="/todos">
-												Close
+												Back
 											</Link>
 										</button>
 									</div>
