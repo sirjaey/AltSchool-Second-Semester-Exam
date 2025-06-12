@@ -1,10 +1,8 @@
-import ErrorBoundary from "../components/ErrorHandler";
+import ErrorBoundary from "../components/ErrorBoundary";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Link } from "react-router-dom";
 
-
 export default function SingleTodo({ details, error, loading, setDetails }) {
-	
 	const handleClosePreview = () => {
 		setDetails(false); // Clear the preview
 	};
@@ -12,9 +10,7 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 	return (
 		<ErrorBoundary>
 			<div className="todo-item">
-				{loading && (
-					<LoadingSpinner />
-				)}
+				{loading && <LoadingSpinner />}
 				{error && <p className="text-red-600">Error: {error}</p>}
 				<div className="space-y-2 mb-4">
 					{details && !loading && (
@@ -25,9 +21,10 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 										<strong>Todo Details</strong>
 									</div>
 									<div>
-										<strong>ID:</strong> {details.id}
+										<strong>ID:</strong> {details.id || "Your Todo"}
 									</div>
-									<strong>Title:</strong> {details.title}
+									<strong>Title:</strong>{" "}
+									{details.title || "You created this Todo yourself"}
 									<div>
 										<p>
 											<strong>Status:</strong>{" "}
@@ -35,7 +32,25 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 										</p>
 									</div>
 									<div className="clote-btn">
-										<button onClick={handleClosePreview} style={{color: "white", backgroundColor: "red", padding: "10px 20px", borderRadius: "10px"}}><Link style={{color: "white", backgroundColor: "red", padding: "10px 20px", borderRadius: "10px"}} to="/todos">Close</Link></button>
+										<button
+											onClick={handleClosePreview}
+											style={{
+												color: "white",
+												backgroundColor: "red",
+												padding: "10px 20px",
+												borderRadius: "10px",
+											}}>
+											<Link
+												style={{
+													color: "white",
+													backgroundColor: "red",
+													padding: "10px 20px",
+													borderRadius: "10px",
+												}}
+												to="/todos">
+												Close
+											</Link>
+										</button>
 									</div>
 								</div>
 							</div>

@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Todos from "./pages/Todos";
 import SingleTodo from "./pages/SingleTodo";
 import NotFound from "./pages/NotFound";
+import CrashTest from "./pages/CrashTest";
 
 export default function App() {
 	const [todos, setTodos] = useState([]);
@@ -75,6 +76,7 @@ export default function App() {
 							</QueryClientProvider>
 						}
 					/>
+					<Route path="/crash-test" element={<CrashTest />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</NavBar>

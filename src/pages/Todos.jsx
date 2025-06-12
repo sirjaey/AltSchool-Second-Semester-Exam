@@ -7,7 +7,7 @@ import deleteTodo from "../api/deleteTodo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import ErrorBoundary from "../components/ErrorHandler";
+import ErrorBoundary from "../components/ErrorBoundary";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 
@@ -31,6 +31,7 @@ const Todos = ({
 	const [searchTerm, setSearchTerm] = useState("");
 	const [newCompleted, setNewCompleted] = useState(false);
 
+	//Load todos from localStorage on initial render
 	useEffect(() => {
 		const savedTodos = localStorage.getItem("todos");
 		if (savedTodos) {
@@ -38,6 +39,8 @@ const Todos = ({
 		}
 	}, []);
 
+	// Fetch todos from API
+	// Using react-query to fetch todos
 	const {
 		data: todos,
 		isLoading,
@@ -156,14 +159,6 @@ const Todos = ({
 		setEditingId(todo.id);
 		setEditText(todo.title);
 		setCurrentTodoId(todo.id); // Set current todo ID for editing
-		fetchTodoDetails({
-			id: todo.id,
-			currentTodoId,
-			setDetails,
-			setLoading,
-			setError,
-			details,
-		});
 	};
 
 	const handleEditSave = async (id) => {
@@ -174,6 +169,7 @@ const Todos = ({
 					todo.id === id ? { ...todo, title: updated.title } : todo
 				)
 			);
+			localStorage.setItem("todos", JSON.stringify(allTodos));
 			setEditingId(null);
 			setEditText("");
 		} catch (err) {
@@ -192,7 +188,7 @@ const Todos = ({
 		if (!newTodoTitle.trim()) return;
 
 		const newTodo = {
-			id: Date.now(), // unique ID
+			id: new Date(), // unique ID
 			title: newTodoTitle.trim(),
 			completed: newCompleted,
 		};
@@ -313,12 +309,14 @@ const Todos = ({
 													</>
 												) : (
 													<>
-														<span onClick={() => handleEdit(todo)}>
-															<FontAwesomeIcon
-																icon={faPen}
-																className="cursor-pointer text-blue-500"
-															/>
-														</span>
+														{
+															<span onClick={() => handleEdit(todo)}>
+																<FontAwesomeIcon
+																	icon={faPen}
+																	className="cursor-pointer text-blue-500"
+																/>
+															</span>
+														}
 														<span onClick={() => handleDelete(todo.id)}>
 															<FontAwesomeIcon
 																icon={faTrash}
