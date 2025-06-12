@@ -27,4 +27,4 @@ A simple, clean, and interactive Todo application built with **React**, styled u
 - [React](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [FontAwesome](https://fontawesome.com/) (icons)
-- [React Query](https://tanstack.com/query/latest) (optional for fetching todos)
+- [React Query](https://tanstack.com/query/latest) (for fetching todos API)
