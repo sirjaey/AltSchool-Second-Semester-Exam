@@ -81,7 +81,7 @@ Query** and featuring:
 
 - Tailwind CSS v4
 
-- React Query — for fetching and caching todos
+- TanStack Query — for fetching and caching todos
 
 - React Router — for routing
 
