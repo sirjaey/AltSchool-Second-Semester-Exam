@@ -167,5 +167,3 @@ Query** and featuring:
 - 📱 Add mobile PWA support
 
 - 🔍 Search/filter todos
-
-- 🌍 i18n (Internationalization) support
