@@ -150,7 +150,7 @@ Query** and featuring:
 
 ## ⚠️ Known Issues
 
-- Edits made while offline may not reflect correctly if local storage   syncing fals
+- Edits made while offline may not reflect correctly if local storage   syncing fails
 
 - Currently lacks user authentication
 
@@ -167,3 +167,5 @@ Query** and featuring:
 - 📱 Add mobile PWA support
 
 - 🔍 Search/filter todos
+
+- 🌍 i18n (Internationalization) support
