@@ -27,12 +27,3 @@ export default async function fetchTodoDetails({id,
 		setLoading(false);
 	}
 };
-
-
-// export default async function fetchTodoDetails(id) {
-// 	const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
-// 	if (!res.ok) {
-// 		throw new Error(`HTTP error! status: ${res.status}`);
-// 	}
-// 	return res.json();
-// }

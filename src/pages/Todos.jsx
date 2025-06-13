@@ -312,7 +312,7 @@ const Todos = ({
 												) : (
 													<>
 														{
-															<span onClick={() => handleEdit(todo)}>
+															<span className="edit-btn" onClick={() => handleEdit(todo)}>
 																<FontAwesomeIcon
 																	icon={faPen}
 																	className="cursor-pointer text-blue-500"
