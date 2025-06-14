@@ -10,10 +10,10 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 	return (
 		<ErrorBoundary>
 			<div className="todo-item">
-{/* 				{loading && <LoadingSpinner />}
-				{error && <p className="text-red-600">Error: {error}</p>} */}
+				{loading && <LoadingSpinner />}
+				{error && <p className="text-red-600">Error: {error}</p>}
 				<div className="space-y-2 mb-4">
-					{ (
+					{details && !loading &&  (
 						<div>
 							<div className="preview modal-overlay">
 								<div key={details.id} className="modal-content">
@@ -21,10 +21,10 @@ export default function SingleTodo({ details, error, loading, setDetails }) {
 										<strong>Todo Details</strong>
 									</div>
 									<div>
-										<strong>ID:</strong> {details.id}
+										<strong>ID:</strong> {details.id || "Your Todo"}
 									</div>
 									<strong>Title:</strong>{" "}
-									{details.title}
+									{details.title || "You created this Todo yourself"}
 									<div>
 										<p>
 											<strong>Status:</strong>{" "}
