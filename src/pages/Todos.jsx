@@ -109,7 +109,7 @@ const Todos = ({
 
 	const handleSingleTodo = (id, title, completed) => {
 		setCurrentTodoId(id);
-		setDetails({ id, todo, completed });
+		setDetails({ id, title, completed });
 		// fetchTodoDetails({
 		// 	id,
 		// 	currentTodoId,
