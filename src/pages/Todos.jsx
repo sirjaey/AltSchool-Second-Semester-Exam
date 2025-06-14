@@ -107,17 +107,16 @@ const Todos = ({
 		if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
 	};
 
-	const handleSingleTodo = (id, title, completed) => {
+	const handleSingleTodo = (id) => {
 		setCurrentTodoId(id);
-		setDetails({ id, title, completed });
-		// fetchTodoDetails({
-		// 	id,
-		// 	currentTodoId,
-		// 	setDetails,
-		// 	setLoading,
-		// 	setError,
-		// 	details,
-		// });
+		fetchTodoDetails({
+			id,
+			currentTodoId,
+			setDetails,
+			setLoading,
+			setError,
+			details,
+		});
 	};
 
 	const handleAll = () => {
@@ -274,7 +273,7 @@ const Todos = ({
 										<div className="flex justify-between items-center">
 											<div
 												className="flex-1"
-												onClick={() => handleSingleTodo(todo.id, todo.title, todo.completed)}>
+												onClick={() => handleSingleTodo(todo.id)}>
 												{editingId === todo.id ? (
 													<input
 														value={editText}
