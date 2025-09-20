@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchTodos from "../api/fetchTodos";
 import fetchTodoDetails from "../api/fetchTodoDetails";
@@ -11,7 +11,26 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 
-const Todos = ({
+// ✅ Define a type for a Todo
+export interface Todo {
+	id: number | string; 
+	todo: string;
+	completed: boolean;
+}
+
+// ✅ Define Props for the component
+interface TodosProps {
+	currentPage: number;
+	setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+	currentTodoId: number | string | null;
+	setCurrentTodoId: React.Dispatch<React.SetStateAction<number | string | null>>;
+	setError: React.Dispatch<React.SetStateAction<string | null>>;
+	details: Todo | null;
+	setDetails: React.Dispatch<React.SetStateAction<Todo | null>>;
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Todos: React.FC<TodosProps> = ({
 	currentPage,
 	setCurrentPage,
 	currentTodoId,
@@ -24,14 +43,16 @@ const Todos = ({
 	const [fullList, setFullList] = useState(true);
 	const [completedTasks, setCompletedTasks] = useState(false);
 	const [pendingTasks, setPendingTasks] = useState(false);
-	const [allTodos, setAllTodos] = useState([]);
-	const [editingId, setEditingId] = useState(null);
-	const [editText, setEditText] = useState("");
-	const [newTodoTitle, setNewTodoTitle] = useState("");
-	const [searchTerm, setSearchTerm] = useState("");
-	const [newCompleted, setNewCompleted] = useState(false);
+	const [allTodos, setAllTodos] = useState<Todo[]>([]);
+	const [editingId, setEditingId] = useState<number | string | null>(null);
+	const [editText, setEditText] = useState<string>("");
+	const [editCompleted, setEditCompleted] = useState<boolean | null>(null);
+	const [newTodoTitle, setNewTodoTitle] = useState<string>("");
+	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [newCompleted, setNewCompleted] = useState<boolean>(false);
+	const [newId, setNewId] = useState<string>("");
 
-	//Load todos from localStorage on initial render
+	// Load todos from localStorage on initial render
 	useEffect(() => {
 		const savedTodos = localStorage.getItem("todos");
 		if (savedTodos) {
@@ -39,16 +60,25 @@ const Todos = ({
 		}
 	}, []);
 
+	// Load newId from localStorage or initialize it
+	useEffect(() => {
+		const savedId = localStorage.getItem("newTodoId");
+		if (savedId) {
+			setNewId(JSON.parse(savedId) + 1);
+		} else {
+			setNewId(31);
+		}
+	}, []);
+
 	// Fetch todos from API
-	// Using react-query to fetch todos
 	const {
 		data: todos,
 		isLoading,
 		isError,
-	} = useQuery({
+	} = useQuery<Todo[], Error>({
 		queryKey: ["todos"],
 		queryFn: fetchTodos,
-		onSuccess: (data) => {
+		onSuccess: (data: SetStateAction<Todo[]>) => {
 			setAllTodos(data);
 			localStorage.setItem("todos", JSON.stringify(data));
 			setCurrentPage(1);
@@ -57,24 +87,24 @@ const Todos = ({
 
 	useEffect(() => {
 		if (todos) {
-			setAllTodos(todos);
+			setAllTodos(todos as Todo[]);
 		}
 	}, [todos]);
 
 	const completed = allTodos?.filter((todo) => todo.completed === true);
-	const pending = allTodos.filter((todo) => todo.completed === false);
+	const pending = allTodos?.filter((todo) => todo.completed === false);
 	const all = allTodos;
 
 	const todosPerPage = 10;
 	const indexOfLastTodo = currentPage * todosPerPage;
 	const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
 
-	let currentTodos = [];
+	let currentTodos: Todo[] = [];
 	let totalPages = 1;
 
 	if (fullList) {
 		const filtered = (all || []).filter((todo) =>
-			todo.title.toLowerCase().includes(searchTerm.toLowerCase())
+			todo.todo?.toLowerCase().includes(searchTerm.toLowerCase())
 		);
 		currentTodos = filtered.slice(indexOfFirstTodo, indexOfLastTodo);
 		totalPages = Math.ceil(filtered.length / todosPerPage);
@@ -83,8 +113,8 @@ const Todos = ({
 	if (completedTasks) {
 		const filtered = completed
 			? completed.filter((todo) =>
-					todo.title.toLowerCase().includes(searchTerm.toLowerCase())
-			  )
+				todo.todo?.toLowerCase().includes(searchTerm.toLowerCase())
+			)
 			: [];
 		currentTodos = filtered.slice(indexOfFirstTodo, indexOfLastTodo);
 		totalPages = Math.ceil(filtered.length / todosPerPage);
@@ -92,8 +122,8 @@ const Todos = ({
 	if (pendingTasks) {
 		const filtered = pending
 			? pending.filter((todo) =>
-					todo.title.toLowerCase().includes(searchTerm.toLowerCase())
-			  )
+				todo.todo?.toLowerCase().includes(searchTerm.toLowerCase())
+			)
 			: [];
 		currentTodos = filtered.slice(indexOfFirstTodo, indexOfLastTodo);
 		totalPages = Math.ceil(filtered.length / todosPerPage);
@@ -107,16 +137,9 @@ const Todos = ({
 		if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
 	};
 
-	const handleSingleTodo = (id) => {
+	const handleSingleTodo = (id: number | string, todo: string, completed: boolean) => {
 		setCurrentTodoId(id);
-		fetchTodoDetails({
-			id,
-			currentTodoId,
-			setDetails,
-			setLoading,
-			setError,
-			details,
-		});
+		setDetails({ id, todo, completed });
 	};
 
 	const handleAll = () => {
@@ -137,7 +160,7 @@ const Todos = ({
 		setPendingTasks(true);
 	};
 
-	const handleDelete = async (id) => {
+	const handleDelete = async (id: number | string) => {
 		try {
 			await deleteTodo(id); // delete from server
 			setAllTodos((prev) => prev.filter((todo) => todo.id !== id)); // update local state
@@ -155,18 +178,24 @@ const Todos = ({
 		}
 	};
 
-	const handleEdit = (todo) => {
+	const handleEdit = (todo: Todo) => {
 		setEditingId(todo.id);
-		setEditText(todo.title);
-		setCurrentTodoId(todo.id); // Set current todo ID for editing
+		setEditText(todo.todo);
+		setEditCompleted(todo.completed);
+		setCurrentTodoId(todo.id);
 	};
 
-	const handleEditSave = async (id) => {
+	const handleEditSave = async (id: number | string) => {
 		try {
-			const updated = await updateTodo(id, { title: editText }); // update on server
+			const updated = await updateTodo(id, {
+				todo: editText,
+				completed: editCompleted,
+			}); // update on server
 
 			const updatedTodos = allTodos.map((todo) =>
-				todo.id === id ? { ...todo, title: updated.title } : todo
+				todo.id === id
+					? { ...todo, todo: updated.todo, completed: updated.completed }
+					: todo
 			);
 
 			setAllTodos(updatedTodos);
@@ -185,21 +214,43 @@ const Todos = ({
 		setEditText("");
 	};
 
-	const handleAdd = (e) => {
+	const handleAdd = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!newTodoTitle.trim()) return;
 
+		// Generate a unique ID for the new todo
+
 		const newTodo = {
-			id: new Date(), // unique ID
-			title: newTodoTitle.trim(),
+			todo: newTodoTitle.trim(),
 			completed: newCompleted,
+			userId: 1, 
 		};
 
-		const updatedTodos = [newTodo, ...allTodos];
-		setAllTodos(updatedTodos);
-		localStorage.setItem("todos", JSON.stringify(updatedTodos));
-		setNewTodoTitle("");
-		setNewCompleted(false);
+		try {
+			const res = await fetch("https://dummyjson.com/todos/add", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(newTodo),
+			});
+
+			const data = await res.json();
+			const todoWithUniqueId = { ...data, id: newId }; // Ensure unique ID
+			const updatedTodos = [todoWithUniqueId, ...allTodos];
+			setAllTodos(updatedTodos);
+			localStorage.setItem("todos", JSON.stringify(updatedTodos));
+			setNewTodoTitle("");
+			setNewCompleted(false);
+			setNewId((prev) => prev + 1); // Increment ID for next todo
+
+			//store new Id to local storage
+			localStorage.setItem("newTodoId", JSON.stringify(newId));
+			console.log("newId:", newId);
+		} catch (error) {
+			console.error("Failed to add todo:", error);
+		}
+
 	};
 
 	return (
@@ -273,25 +324,42 @@ const Todos = ({
 										<div className="flex justify-between items-center">
 											<div
 												className="flex-1"
-												onClick={() => handleSingleTodo(todo.id)}>
+												onClick={() =>
+													handleSingleTodo(todo.id, todo.todo, todo.completed)
+												}>
 												{editingId === todo.id ? (
-													<input
-														value={editText}
-														onChange={(e) => setEditText(e.target.value)}
-														className="w-full p-1 border-gray-400 border rounded"
-													/>
+													<div>
+														<input
+															value={editText}
+															onChange={(e) => setEditText(e.target.value)}
+															className="w-full p-1 border-gray-400 border rounded"
+														/>
+														{(
+															<>
+																<input
+																	type="checkbox"
+																	checked={editCompleted}
+																	onChange={(e) =>
+																		setEditCompleted(e.target.checked)
+																	}
+																	className="mr-2"
+																/>
+																<label>Mark as completed</label>
+															</>
+														)}
+													</div>
 												) : (
 													<Link to="/singleTodo">
-														<p className="todoText font-medium">{todo.title}</p>
+														<p className="todoText font-medium">{todo.todo}</p>
 													</Link>
 												)}
-												<p className="todoActions text-sm text-gray-600">
+												<div className="todoActions text-sm text-gray-600">
 													{todo.completed ? (
 														<span className="statusCompleted">✅ Done</span>
 													) : (
-														<span className="statusP">⏳ Pending</span>
+														<div><span className="statusP">⏳ Pending</span></div>
 													)}
-												</p>
+												</div>
 											</div>
 
 											<div className="flex items-center gap-2">
@@ -312,7 +380,9 @@ const Todos = ({
 												) : (
 													<>
 														{
-															<span className="edit-btn" onClick={() => handleEdit(todo)}>
+															<span
+																className="edit-btn"
+																onClick={() => handleEdit(todo)}>
 																<FontAwesomeIcon
 																	icon={faPen}
 																	className="cursor-pointer text-blue-500"
