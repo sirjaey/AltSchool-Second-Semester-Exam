@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/auth/ui/button";
 import fetchTodos from "../api/fetchTodos";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
 	const handleFetchTodos = () => {
 		fetchTodos();
 	};
+	useEffect(() => {
+		toast.success("Logged in successfully!")
+	}, []);
 
 	return (
+		<>
+			<ToastContainer autoClose={2000} />
 		<div>
 			<header className="text-center py-16 px-6">
 				<h2 className="text-5xl font-bold text-blue-800">JoshuaTodos</h2>
@@ -55,6 +62,7 @@ export default function Home() {
 					<div>© 2025 JoshuaTodos. All rights reserved.</div>
 				</div>
 			</footer>
-		</div>
+			</div>
+		</>
 	);
 }
