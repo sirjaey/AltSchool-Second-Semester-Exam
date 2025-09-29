@@ -51,7 +51,7 @@ const AuthForm = () => {
 
                     <button
                         onClick={handleAuth}
-                        className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors mb-4"
+                        className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors mb-4 cursor-pointer"
                     >
                         {isLogin ? "Login" : "Sign Up"}
                     </button>
@@ -67,19 +67,6 @@ const AuthForm = () => {
                     </p>
                 </div>
             </div>
-
-            {/* <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            /> */}
         </>
     );
 };
