@@ -9,11 +9,11 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ErrorBoundary from "../components/ErrorBoundary";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/auth/ui/button";
 
 // ✅ Define a type for a Todo
 export interface Todo {
-	id: number | string; 
+	id: number | string;
 	todo: string;
 	completed: boolean;
 }
@@ -223,7 +223,7 @@ const Todos: React.FC<TodosProps> = ({
 		const newTodo = {
 			todo: newTodoTitle.trim(),
 			completed: newCompleted,
-			userId: 1, 
+			userId: 1,
 		};
 
 		try {
