@@ -16,41 +16,76 @@
 //     "noEmit": true,
 //     "jsx": "react-jsx",
 //   },
-  
 //   "include": ["src"],
 //   "references": [{ "path": "./tsconfig.node.json" },
 //   { 
 //         "path": "./tsconfig.app.json"
 //       }]
 // }
-
+// {
+//   "compilerOptions": {
+//     "target": "ESNext",
+//     "lib": ["DOM", "DOM.Iterable", "ESNext", "es2015"],
+//     "module": "ESNext",
+//     "moduleResolution": "Node",
+//     "jsx": "react-jsx",
+//     "types": ["react", "react-dom"],
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "noEmit": true,
+//     // Optional stricter checks
+//     "noUnusedLocals": true,
+//     "noUnusedParameters": true,
+//     "noFallthroughCasesInSwitch": true
+//   },
+//   "include": ["src"],
+//   "references": [
+//     { "path": "./tsconfig.node.json" },
+//     { "path": "./tsconfig.app.json" }
+//   ]
+// }
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext", "es2015"],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "jsx": "react-jsx",
-    "types": ["react", "react-dom"],
-
-
-    "strict": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-
-    // Optional stricter checks
+    "jsx": "preserve",
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src"],
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.app.json" }
+  "include": [
+    "./dist/types/**/*.ts",
+    "./next-env.d.ts",
+    "./src",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "./node_modules"
   ]
 }
