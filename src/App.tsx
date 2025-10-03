@@ -1,91 +1,15 @@
-// import {Routes, Route } from "react-router-dom";
-// import { useState } from "react";
-// import NavBar from "./pages/NavBar";
-// import Home from "./pages/Home";
-// import Todos from "./pages/Todos";
-// import SingleTodo from "./pages/SingleTodo";
-// import NotFound from "./pages/NotFound";
-// import CrashTest from "./pages/CrashTest";
-
-// export interface Todo {
-// 	id: number;
-// 	title: string;
-// 	completed: boolean;
-// }
-
-// export default function App() {
-// 	const [todos, setTodos] = useState<Todo[]>([]);
-// 	const [error, setError] = useState<string | null>(null);
-// 	const [loading, setLoading] = useState<boolean>(false);
-// 	const [currentPage, setCurrentPage] = useState<number>(1);
-// 	const [currentTodoId, setCurrentTodoId] = useState<number | null>(null);
-// 	const [details, setDetails] = useState<Todo | null>(null);
-
-// 	return (
-// 		<NavBar>
-// 			<Routes>
-// 				<Route
-// 					path="/"
-// 					element={
-// 						<Home
-							
-// 						/>
-// 					}
-// 				/>
-// 				<Route
-// 					path="/todos"
-// 					element={
-// 						<Todos
-// 							todos={todos}
-// 							setTodos={setTodos}
-// 							error={error}
-// 							setError={setError}
-// 							loading={loading}
-// 							currentPage={currentPage}
-// 							setCurrentPage={setCurrentPage}
-// 							setCurrentTodoId={setCurrentTodoId}
-// 							details={details}
-// 							setDetails={setDetails}
-// 							setLoading={setLoading}
-// 							currentTodoId={currentTodoId}
-// 						/>
-// 					}
-// 				/>
-// 				<Route
-// 					path="/singleTodo"
-// 					element={
-// 						<SingleTodo
-// 							todos={todos}
-// 							setTodos={setTodos}
-// 							error={error}
-// 							setError={setError}
-// 							loading={loading}
-// 							currentPage={currentPage}
-// 							setCurrentPage={setCurrentPage}
-// 							setCurrentTodoId={setCurrentTodoId}
-// 							details={details}
-// 							setDetails={setDetails}
-// 						/>
-// 					}
-// 				/>
-// 				<Route path="/crash-test" element={<CrashTest />} />
-// 				<Route path="*" element={<NotFound />} />
-// 			</Routes>
-// 		</NavBar>
-// 	);
-// }
-
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "./firebase"; // your firebase.ts
+import { auth } from "./firebase"; 
 import NavBar from "./pages/NavBar";
 import Home from "./pages/Home";
 import Todos from "./pages/Todos";
 import SingleTodo from "./pages/SingleTodo";
 import NotFound from "./pages/NotFound";
 import CrashTest from "./pages/CrashTest";
-import AuthForm from "./components/auth/AuthForm"; // login/register form
+import AuthForm from "./components/auth/AuthForm";
+import LoadingSpinner from "./components/LoadingSpinner"; 
 
 export interface Todo {
 	id: number;
@@ -114,7 +38,9 @@ export default function App() {
 		return () => unsubscribe();
 	}, []);
 
-	if (authLoading) return <p>Loading...</p>; // optional loading screen while checking auth
+	if (authLoading) return <div className="min-h-screen flex items-center justify-center">
+		<LoadingSpinner />
+	</div>; // loading screen while checking auth
 
 	if (!user) return <AuthForm />; // show login/register if not authenticated
 
